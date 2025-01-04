@@ -2,14 +2,20 @@ package com.jiwon.blog.dto;
 
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.entity.Role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class MemberJoinRequest {
+
+    @NotBlank
+    @Email
     private String email;
+    @NotBlank
     private String password;
+    private String passwordConfirm;
+    @NotBlank
     private String name;
 
     public Member toEntity(String encodedPassword) {

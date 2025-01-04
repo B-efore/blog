@@ -5,6 +5,7 @@ import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberService {
@@ -16,14 +17,27 @@ public class MemberService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public Member join(MemberJoinRequest request) {
-        // TODO: 중복 검사 처리
-        if (memberRepository.existsByEmail(request.getEmail())) {
+    @Transactional
+    public Integer join(MemberJoinRequest request) {
 
-        };
+        validateDuplicateMember(request);
+        validatePasswordConfirm(request);
 
         String encodedPassword = bCryptPasswordEncoder.encode(request.getPassword());
         Member member = request.toEntity(encodedPassword);
-        return memberRepository.save(member);
+        memberRepository.save(member);
+        return member.getMemberId();
+    }
+
+    private void validatePasswordConfirm(MemberJoinRequest request) {
+        if(!request.getPassword().equals(request.getPasswordConfirm())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    private void validateDuplicateMember(MemberJoinRequest request) {
+        if (memberRepository.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
     }
 }
