@@ -4,6 +4,7 @@ import com.jiwon.blog.dto.MemberJoinRequest;
 import com.jiwon.blog.dto.MemberResponse;
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.repository.MemberRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,5 +59,11 @@ public class MemberService {
         return memberRepository.findById(memberId)
                 .map(MemberResponse::of)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+    }
+
+    @Transactional
+    public void deleteMember(Integer memberId) {
+        memberRepository.delete(memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")));
     }
 }

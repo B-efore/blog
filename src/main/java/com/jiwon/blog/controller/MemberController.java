@@ -5,8 +5,8 @@ import com.jiwon.blog.dto.MemberResponse;
 import com.jiwon.blog.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,5 +43,15 @@ public class MemberController {
     public ResponseEntity<MemberResponse> getMember(@PathVariable(name = "id") Integer id) {
         MemberResponse memberResponse = memberService.findMember(id);
         return new ResponseEntity<>(memberResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/members/{id}")
+    public ResponseEntity<?> deleteMember(@PathVariable(name = "id") Integer id) {
+        try {
+            memberService.deleteMember(id);
+            return new ResponseEntity<>("회원 삭제 완료", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
