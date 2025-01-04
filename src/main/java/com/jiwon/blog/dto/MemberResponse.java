@@ -12,7 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class MemberResponse {
-    private final Integer memberId;
+    private final Long memberId;
     private final String email;
     private final String name;
     @Enumerated(value = EnumType.STRING)

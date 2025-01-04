@@ -40,7 +40,7 @@ public class MemberController {
     }
 
     @GetMapping("/members/{id}")
-    public ResponseEntity<MemberResponse> getMember(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<MemberResponse> getMember(@PathVariable(name = "id") Long id) {
         try {
             MemberResponse memberResponse = memberService.findMember(id);
             return new ResponseEntity<>(memberResponse, HttpStatus.OK);
@@ -50,7 +50,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/members/{id}")
-    public ResponseEntity<?> deleteMember(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<?> deleteMember(@PathVariable(name = "id") Long id) {
         try {
             memberService.deleteMember(id);
             return new ResponseEntity<>("회원 삭제 완료", HttpStatus.OK);

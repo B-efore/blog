@@ -22,7 +22,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Integer join(MemberJoinRequest request) {
+    public Long join(MemberJoinRequest request) {
 
         validateDuplicateMember(request);
         validatePasswordConfirm(request);
@@ -54,14 +54,14 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse findMember(Integer memberId) {
+    public MemberResponse findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .map(MemberResponse::of)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
     }
 
     @Transactional
-    public void deleteMember(Integer memberId) {
+    public void deleteMember(Long memberId) {
         memberRepository.delete(memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")));
     }
