@@ -41,8 +41,12 @@ public class MemberController {
 
     @GetMapping("/members/{id}")
     public ResponseEntity<MemberResponse> getMember(@PathVariable(name = "id") Integer id) {
-        MemberResponse memberResponse = memberService.findMember(id);
-        return new ResponseEntity<>(memberResponse, HttpStatus.OK);
+        try {
+            MemberResponse memberResponse = memberService.findMember(id);
+            return new ResponseEntity<>(memberResponse, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/members/{id}")

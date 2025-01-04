@@ -4,7 +4,6 @@ import com.jiwon.blog.dto.MemberJoinRequest;
 import com.jiwon.blog.dto.MemberResponse;
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.repository.MemberRepository;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
