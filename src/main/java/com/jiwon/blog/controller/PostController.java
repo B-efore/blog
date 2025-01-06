@@ -1,7 +1,7 @@
 package com.jiwon.blog.controller;
 
 import com.jiwon.blog.dto.request.PostRequest;
-import com.jiwon.blog.dto.response.PostResponse;
+import com.jiwon.blog.dto.response.PostDetailResponse;
 import com.jiwon.blog.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class PostController {
     @PostMapping("/posts")
     public ResponseEntity<?> createPost(@RequestBody PostRequest request) {
         try {
-            PostResponse response = postService.createPost(request);
+            PostDetailResponse response = postService.createPost(request);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -33,7 +33,7 @@ public class PostController {
     @GetMapping("/posts/{id}")
     public ResponseEntity<?> getPost(@PathVariable(name = "id") Long id) {
         try {
-            PostResponse response = postService.findPost(id);
+            PostDetailResponse response = postService.findPost(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

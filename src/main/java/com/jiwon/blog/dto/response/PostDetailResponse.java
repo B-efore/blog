@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class PostResponse {
+public class PostDetailResponse {
     private final Long postId;
     private final String memberName;
     private final String categoryName;
@@ -17,8 +17,8 @@ public class PostResponse {
     private final LocalDateTime createDate;
     private final LocalDateTime modifyDate;
 
-    public static PostResponse of(Post post) {
-        return PostResponse.builder()
+    public static PostDetailResponse of(Post post) {
+        return PostDetailResponse.builder()
                 .postId(post.getPostId())
                 .memberName(post.getMember().getName())
                 .categoryName(post.getCategory().getName())

@@ -1,7 +1,7 @@
 package com.jiwon.blog.service;
 
 import com.jiwon.blog.dto.request.PostRequest;
-import com.jiwon.blog.dto.response.PostResponse;
+import com.jiwon.blog.dto.response.PostDetailResponse;
 import com.jiwon.blog.entity.Category;
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.entity.Post;
@@ -10,8 +10,6 @@ import com.jiwon.blog.repository.MemberRepository;
 import com.jiwon.blog.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class PostService {
@@ -27,20 +25,20 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponse createPost(PostRequest request) {
+    public PostDetailResponse createPost(PostRequest request) {
         Member member = findMember(request.getMemberId());
         Category category = findCategory(request.getCategoryId());
         Post post = request.toEntity(member, category);
 
         postRepository.save(post);
-        return PostResponse.of(post);
+        return PostDetailResponse.of(post);
     }
 
     @Transactional(readOnly = true)
-    public PostResponse findPost(Long postId) {
+    public PostDetailResponse findPost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-        return PostResponse.of(post);
+        return PostDetailResponse.of(post);
     }
 
     private Member findMember(Long memberId) {
