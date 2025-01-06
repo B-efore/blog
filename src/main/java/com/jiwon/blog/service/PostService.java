@@ -2,14 +2,21 @@ package com.jiwon.blog.service;
 
 import com.jiwon.blog.dto.request.PostRequest;
 import com.jiwon.blog.dto.response.PostDetailResponse;
+import com.jiwon.blog.dto.response.PostSummaryResponse;
 import com.jiwon.blog.entity.Category;
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.entity.Post;
 import com.jiwon.blog.repository.CategoryRepository;
 import com.jiwon.blog.repository.MemberRepository;
 import com.jiwon.blog.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -39,6 +46,13 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         return PostDetailResponse.of(post);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostSummaryResponse> findPostsPaged(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Post> postPage = postRepository.findAllByOrderByCreateDateDesc(pageable);
+        return postPage.map(PostSummaryResponse::of);
     }
 
     private Member findMember(Long memberId) {
