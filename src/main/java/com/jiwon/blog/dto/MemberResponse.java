@@ -2,21 +2,20 @@ package com.jiwon.blog.dto;
 
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.entity.Role;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
-@AllArgsConstructor
 @Builder
 public class MemberResponse {
     private final Long memberId;
     private final String email;
     private final String name;
-    @Enumerated(value = EnumType.STRING)
     private final Role role;
+    private final List<PostSummaryResponse> posts;
 
     public static MemberResponse of(Member member) {
         return MemberResponse.builder()
@@ -24,6 +23,9 @@ public class MemberResponse {
                 .email(member.getEmail())
                 .name(member.getName())
                 .role(member.getRole())
+                .posts(member.getPosts().stream()
+                        .map(PostSummaryResponse::of)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

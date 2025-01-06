@@ -9,7 +9,6 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 @Builder
 public class CategoryResponse {
     private final String name;
