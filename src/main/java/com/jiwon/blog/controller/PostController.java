@@ -1,8 +1,7 @@
 package com.jiwon.blog.controller;
 
-import com.jiwon.blog.dto.PostRequest;
-import com.jiwon.blog.dto.PostResponse;
-import com.jiwon.blog.repository.PostRepository;
+import com.jiwon.blog.dto.request.PostRequest;
+import com.jiwon.blog.dto.response.PostResponse;
 import com.jiwon.blog.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.jiwon.blog.service;
 
-import com.jiwon.blog.dto.MemberJoinRequest;
-import com.jiwon.blog.dto.MemberResponse;
+import com.jiwon.blog.dto.request.MemberJoinRequest;
+import com.jiwon.blog.dto.response.MemberResponse;
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

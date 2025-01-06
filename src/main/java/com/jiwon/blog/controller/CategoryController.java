@@ -1,7 +1,7 @@
 package com.jiwon.blog.controller;
 
-import com.jiwon.blog.dto.CategoryRequest;
-import com.jiwon.blog.dto.CategoryResponse;
+import com.jiwon.blog.dto.request.CategoryRequest;
+import com.jiwon.blog.dto.response.CategoryResponse;
 import com.jiwon.blog.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

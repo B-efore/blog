@@ -1,7 +1,7 @@
 package com.jiwon.blog.controller;
 
-import com.jiwon.blog.dto.MemberJoinRequest;
-import com.jiwon.blog.dto.MemberResponse;
+import com.jiwon.blog.dto.request.MemberJoinRequest;
+import com.jiwon.blog.dto.response.MemberResponse;
 import com.jiwon.blog.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

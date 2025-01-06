@@ -1,7 +1,7 @@
 package com.jiwon.blog.service;
 
-import com.jiwon.blog.dto.PostRequest;
-import com.jiwon.blog.dto.PostResponse;
+import com.jiwon.blog.dto.request.PostRequest;
+import com.jiwon.blog.dto.response.PostResponse;
 import com.jiwon.blog.entity.Category;
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.entity.Post;

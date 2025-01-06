@@ -1,4 +1,4 @@
-package com.jiwon.blog.dto;
+package com.jiwon.blog.dto.response;
 
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.entity.Role;

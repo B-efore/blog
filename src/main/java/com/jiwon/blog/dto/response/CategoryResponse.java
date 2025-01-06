@@ -1,8 +1,7 @@
-package com.jiwon.blog.dto;
+package com.jiwon.blog.dto.response;
 
 import com.jiwon.blog.entity.Category;
 import com.jiwon.blog.entity.Post;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
