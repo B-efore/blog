@@ -15,9 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class PostService {
 
@@ -53,6 +50,12 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Post> postPage = postRepository.findAllByOrderByCreateDateDesc(pageable);
         return postPage.map(PostSummaryResponse::of);
+    }
+
+    @Transactional
+    public void deletePost(Long postId) {
+        postRepository.delete(postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")));
     }
 
     private Member findMember(Long memberId) {
