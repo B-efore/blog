@@ -6,17 +6,20 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
 public class CategoryResponse {
     private final String name;
-    private final List<Post> posts;
+    private final List<PostSummaryResponse> posts;
 
     public static CategoryResponse of(Category category) {
         return CategoryResponse.builder()
                 .name(category.getName())
-                .posts(category.getPosts())
+                .posts(category.getPosts().stream()
+                        .map(PostSummaryResponse::of)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }
