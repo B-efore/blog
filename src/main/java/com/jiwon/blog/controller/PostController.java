@@ -63,7 +63,7 @@ public class PostController {
 
     @Operation(summary = "게시글 삭제")
     @DeleteMapping("/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable(name = "postId") Long postId) {
+    public ResponseEntity<?> deletePost(@PathVariable("postId") Long postId) {
         try {
             postService.deletePost(postId);
             return new ResponseEntity<>(HttpStatus.OK);
