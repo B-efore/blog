@@ -24,8 +24,8 @@ public class CategoryController {
 
     @Operation(summary = "카테고리 생성")
     @PostMapping("")
-    public ResponseEntity<CategoryResponse> createCategory(@RequestBody CategoryRequest categoryRequest) {
-        CategoryResponse response = categoryService.createCategory(categoryRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<String> createCategory(@RequestBody CategoryRequest categoryRequest) {
+        categoryService.createCategory(categoryRequest);
+        return new ResponseEntity<>("카테고리 등록 완료", HttpStatus.OK);
     }
 }

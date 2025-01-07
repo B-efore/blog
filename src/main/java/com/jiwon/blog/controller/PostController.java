@@ -50,6 +50,17 @@ public class PostController {
         return new ResponseEntity<>(postsPaged.getContent(), HttpStatus.OK);
     }
 
+    @Operation(summary = "전체(카테고리별) 게시글 조회")
+    @GetMapping("/categories/{categoryId}")
+    public ResponseEntity<List<PostSummaryResponse>> getAllPostsByCategory(
+            @PathVariable("categoryId") Long categoryId,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        Page<PostSummaryResponse> postsPaged = postService.findPostsPagedByCategory(categoryId, page, size);
+        return new ResponseEntity<>(postsPaged.getContent(), HttpStatus.OK);
+    }
+
     @Operation(summary = "단일 게시글 상세 조회")
     @GetMapping("/{postId}")
     public ResponseEntity<?> getPost(@PathVariable("postId") Long postId) {

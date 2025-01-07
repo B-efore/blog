@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAllByOrderByCreateDateDesc(Pageable pageable);
+    Page<Post> findByCategory_CategoryIdOrderByCreateDateDesc(Long categoryId, Pageable pageable);
 }

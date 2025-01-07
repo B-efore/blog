@@ -19,9 +19,8 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryResponse createCategory(CategoryRequest request) {
+    public void createCategory(CategoryRequest request) {
         Category category = request.toEntity();
         categoryRepository.save(category);
-        return CategoryResponse.of(category);
     }
 }

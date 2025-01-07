@@ -62,7 +62,10 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(Long memberId) {
-        memberRepository.delete(memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")));
+        //TODO: 사용자 인증 추가
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        //TODO: 게시글 주인에 대해 탈퇴한 회원임을 설정
+        memberRepository.delete(member);
     }
 }
