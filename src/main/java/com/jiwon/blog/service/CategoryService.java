@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 public class CategoryService {
@@ -22,5 +25,12 @@ public class CategoryService {
     public void createCategory(CategoryRequest request) {
         Category category = request.toEntity();
         categoryRepository.save(category);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryResponse> findCategories() {
+        return categoryRepository.findAll().stream()
+                .map(CategoryResponse::of)
+                .collect(Collectors.toList());
     }
 }

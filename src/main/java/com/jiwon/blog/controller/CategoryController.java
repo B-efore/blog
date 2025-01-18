@@ -7,10 +7,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RequestMapping("api/categories")
 @RestController
@@ -27,5 +30,12 @@ public class CategoryController {
     public ResponseEntity<String> createCategory(@RequestBody CategoryRequest categoryRequest) {
         categoryService.createCategory(categoryRequest);
         return new ResponseEntity<>("카테고리 등록 완료", HttpStatus.OK);
+    }
+
+    @Operation(summary = "카테고리 조회")
+    @GetMapping("")
+    public ResponseEntity<List<CategoryResponse>> getAllCategories() {
+        List<CategoryResponse> categories = categoryService.findCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }

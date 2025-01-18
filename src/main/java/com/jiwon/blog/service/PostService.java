@@ -9,14 +9,12 @@ import com.jiwon.blog.entity.Post;
 import com.jiwon.blog.repository.CategoryRepository;
 import com.jiwon.blog.repository.MemberRepository;
 import com.jiwon.blog.repository.PostRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 public class PostService {
 
@@ -54,7 +52,7 @@ public class PostService {
         return postPage.map(PostSummaryResponse::of);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<PostSummaryResponse> findPostsPagedByCategory(Long categoryId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Post> postPage = postRepository.findByCategory_CategoryIdOrderByCreateDateDesc(categoryId, pageable);
