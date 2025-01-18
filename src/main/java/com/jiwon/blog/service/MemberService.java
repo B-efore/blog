@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

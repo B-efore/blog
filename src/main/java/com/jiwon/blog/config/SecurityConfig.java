@@ -2,7 +2,6 @@ package com.jiwon.blog.config;
 
 import com.jiwon.blog.jwt.JWTFilter;
 import com.jiwon.blog.jwt.JWTUtil;
-import com.jiwon.blog.jwt.LoginFilter;
 import com.jiwon.blog.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,12 +18,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, CustomUserDetailsService customUserDetailsService) {
-        this.authenticationConfiguration = authenticationConfiguration;
+    public SecurityConfig(JWTUtil jwtUtil, CustomUserDetailsService customUserDetailsService) {
         this.jwtUtil = jwtUtil;
         this.customUserDetailsService = customUserDetailsService;
     }
@@ -50,10 +47,10 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll());
 
         http
-                .addFilterBefore(new JWTFilter(customUserDetailsService, jwtUtil), LoginFilter.class);
+                .addFilterBefore(new JWTFilter(customUserDetailsService, jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
-        http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+//        http
+//                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         http
                 .sessionManagement(session -> session

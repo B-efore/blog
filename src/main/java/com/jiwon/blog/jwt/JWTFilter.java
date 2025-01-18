@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -27,27 +28,33 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String authorization = request.getHeader("Authorization");
+        String token = getTokenFromRequest(request);
 
-        if(authorization == null || !authorization.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
+        if(StringUtils.hasText(token) && !jwtUtil.isExpired(token)) {
+
+            String email = jwtUtil.getEmail(token);
+            CustomUserDetails userDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
+
+            Authentication authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authToken);
         }
-
-        String token = authorization.split(" ")[1];
-
-        if(jwtUtil.isExpired(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String email = jwtUtil.getEmail(token);
-        String role = jwtUtil.getRole(token);
-
-        CustomUserDetails userDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
-        Authentication authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
+    }
+
+    private String getTokenFromRequest(HttpServletRequest request)
+    {
+        String bearerToken = request.getHeader("Authorization");
+
+        if(bearerToken.startsWith("Bearer ") && StringUtils.hasText(bearerToken)) {
+            return bearerToken.substring(7);
+        }
+
+        return null;
     }
 }

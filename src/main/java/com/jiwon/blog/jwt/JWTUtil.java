@@ -3,6 +3,7 @@ package com.jiwon.blog.jwt;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -15,6 +16,7 @@ public class JWTUtil {
 
     private final SecretKey ACCESS_SECRET_KEY;
     private final SecretKey REFRESH_SECRET_KEY;
+    private final long EXPIRED_MS = 1000L * 60 * 60;
 
     public JWTUtil(@Value("${spring.jwt.access-secret}") String ACCESS_SECRET_KEY,
                    @Value("${spring.jwt.refresh-secret}") String REFRESH_SECRET_KEY) {
@@ -34,12 +36,17 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(ACCESS_SECRET_KEY).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String email, String role, Long expiredMs) {
+    public String createJwt(Authentication authentication) {
+
+        String email = authentication.getName();
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        Date now = new Date(System.currentTimeMillis());
+
         return Jwts.builder()
                 .claim("email", email)
                 .claim("role", role)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + EXPIRED_MS))
                 .signWith(ACCESS_SECRET_KEY)
                 .compact();
     }
