@@ -1,6 +1,5 @@
 package com.jiwon.blog.jwt;
 
-import com.jiwon.blog.dto.request.CustomUserDetails;
 import com.jiwon.blog.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,7 +32,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(token) && !jwtUtil.isExpired(token)) {
 
             String email = jwtUtil.getEmail(token);
-            CustomUserDetails userDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
             Authentication authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
@@ -51,7 +50,7 @@ public class JWTFilter extends OncePerRequestFilter {
     {
         String bearerToken = request.getHeader("Authorization");
 
-        if(bearerToken.startsWith("Bearer ") && StringUtils.hasText(bearerToken)) {
+        if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
 

@@ -5,7 +5,6 @@ import com.jiwon.blog.dto.response.PostDetailResponse;
 import com.jiwon.blog.dto.response.PostSummaryResponse;
 import com.jiwon.blog.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
