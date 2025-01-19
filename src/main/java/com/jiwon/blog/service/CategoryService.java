@@ -1,12 +1,15 @@
 package com.jiwon.blog.service;
 
-import com.jiwon.blog.dto.CategoryRequest;
-import com.jiwon.blog.dto.CategoryResponse;
+import com.jiwon.blog.dto.request.CategoryRequest;
+import com.jiwon.blog.dto.response.CategoryResponse;
 import com.jiwon.blog.entity.Category;
 import com.jiwon.blog.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -19,9 +22,15 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryResponse createCategory(CategoryRequest request) {
+    public void createCategory(CategoryRequest request) {
         Category category = request.toEntity();
         categoryRepository.save(category);
-        return CategoryResponse.of(category);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryResponse> findCategories() {
+        return categoryRepository.findAll().stream()
+                .map(CategoryResponse::of)
+                .collect(Collectors.toList());
     }
 }

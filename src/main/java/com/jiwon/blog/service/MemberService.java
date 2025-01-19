@@ -1,7 +1,7 @@
 package com.jiwon.blog.service;
 
-import com.jiwon.blog.dto.MemberJoinRequest;
-import com.jiwon.blog.dto.MemberResponse;
+import com.jiwon.blog.dto.request.MemberJoinRequest;
+import com.jiwon.blog.dto.response.MemberResponse;
 import com.jiwon.blog.entity.Member;
 import com.jiwon.blog.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -62,7 +63,10 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(Long memberId) {
-        memberRepository.delete(memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")));
+        //TODO: 사용자 인증 추가
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        //TODO: 게시글 주인에 대해 탈퇴한 회원임을 설정
+        memberRepository.delete(member);
     }
 }
